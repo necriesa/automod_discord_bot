@@ -1,23 +1,33 @@
 require('dotenv').config();
-const {Client, IntentsBitField} = require('discord.js');
 
+const client  = require('./client');
 const token = process.env.DISCORD_TOKEN || "";
 
-const client = new Client({
-    intents: [
-        IntentsBitField.Flags.Guilds, 
-        IntentsBitField.Flags.GuildMembers, // allows access to server members 
-        IntentsBitField.Flags.GuildMessages, // allows access to create messages 
-        IntentsBitField.Flags.MessageContent, // Corrected flag
-        IntentsBitField.Flags.GuildMessageReactions, // allows access to create reactions
-    ]
+//attempt a login
+client.login(token);
+
+// client logs into console when the bot is ready
+client.on('ready', (c) =>{ 
+    console.log(`${c.user.tag} is ready!`);
 });
 
-try{
-    client.login(token)
-    .then(() =>{
-        console.log("Bot is logged in and online");
-    });
-}catch (err) {
-    console.error(err);
-}
+// client checks each new message that it can see for bad words
+client.on('messageCreate', (message) => {
+    const words = ["nigger", "faggot", "asswipe"];
+
+    const splitMessage = message.content.toLowerCase().split(" ");
+
+    if(splitMessage.some(item => words.includes(item))){
+
+        //reply to the message: 
+        message.channel.send(`${message.author} said a bad word D:`)
+        .then(() => console.log(`filtered the badword of ${message.author.tag}`))
+        .catch(console.error);
+
+        //delete the message
+        message.delete()
+        .catch(console.error);
+    }
+});
+
+
