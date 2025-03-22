@@ -1,0 +1,27 @@
+{
+  "name": "automod_discord_bot",
+  "version": "1.0.0",
+  "description": "Chat moderation bot for Discord servers",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev" : "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/necriesa/automod_discord_bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/necriesa/automod_discord_bot/issues"
+  },
+  "homepage": "https://github.com/necriesa/automod_discord_bot#readme",
+  "dependencies": {
+    "discord.js": "^14.18.0",
+    "dotenv": "^16.4.7",
+    "nodemon": "^3.1.9"
+  }
+}
