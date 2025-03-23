@@ -7,18 +7,10 @@ const token = process.env.DISCORD_TOKEN || "";
 
 const badWords = JSON.parse(fs.readFileSync('./src/profanity.json', 'utf8'));
 
-// connect to MongoDB database
-(async () => {
-    try {
-        await mongoose.connect(process.env.MONGODB_URI)
-    
-        // attempt a login
-        client.login(token);
-    } catch (error) {
-        console.log(`Error: ${error}`)
-    }
-    
-})
+// attempt to connect to MongoDB database and login
+mongoose.connect(process.env.MONGODB_URI).then(() => {
+    client.login(token)
+}).catch( (err) => {console.log(`Error: ${err.message}`)} )
 
 
 // client logs into console when the bot is ready
