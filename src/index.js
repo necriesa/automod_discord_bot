@@ -9,11 +9,17 @@ const badWords = JSON.parse(fs.readFileSync('./src/profanity.json', 'utf8'));
 
 // connect to MongoDB database
 (async () => {
-    await mongoose.connect(process.env.MONGODB_URI)
+    try {
+        await mongoose.connect(process.env.MONGODB_URI)
+    
+        // attempt a login
+        client.login(token);
+    } catch (error) {
+        console.log(`Error: ${error}`)
+    }
+    
 })
 
-//attempt a login
-client.login(token);
 
 // client logs into console when the bot is ready
 client.on('ready', (c) =>{
