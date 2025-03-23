@@ -33,8 +33,8 @@ module.exports = async (message) => {
     else {
       // user doesn't exist yet
       const newUser = new Users ({
-        name: username,
-        id: userId,
+        name: author.displayName,
+        id: author.id,
         infractionCount: 1,
         lastInfraction: message.createdAt
       });
