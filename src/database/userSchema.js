@@ -5,9 +5,16 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    tag: {
+    id: {
         type: String,
         required: true
+    },
+    infractionCount: {
+        type: Number,
+        default: 0
+    },
+    lastInfraction: {
+        type: Date
     }
 });
 
