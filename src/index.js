@@ -7,7 +7,7 @@ const token = process.env.DISCORD_TOKEN || "";
 const { MongoClient, ServerApiVersion } = require('mongodb')
 const uri = "mongodb+srv://csnj22xs:<pHJUDPSmC5vXu9Tw>@discordbot.p4ju0.mongodb.net/?retryWrites=true&w=majority&appName=discordBot"
 
-const badWords = JSON.parse(fs.readFileSync('./badwords.json', 'utf8'));
+const badWords = JSON.parse(fs.readFileSync('./src/profanity.json', 'utf8'));
 
 //attempt a login
 client.login(token);
