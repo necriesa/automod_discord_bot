@@ -2,24 +2,18 @@ require('dotenv').config();
 
 const fs = require('fs');
 const client = require('./client');
+const mongoose = require('mongoose')
 const token = process.env.DISCORD_TOKEN || "";
-
-const { MongoClient, ServerApiVersion } = require('mongodb')
-const uri = "mongodb+srv://csnj22xs:<pHJUDPSmC5vXu9Tw>@discordbot.p4ju0.mongodb.net/?retryWrites=true&w=majority&appName=discordBot"
 
 const badWords = JSON.parse(fs.readFileSync('./src/profanity.json', 'utf8'));
 
+// connect to MongoDB database
+(async () => {
+    await mongoose.connect('mongodb+srv://csnj22xs:<pHJUDPSmC5vXu9Tw>@discordbot.p4ju0.mongodb.net/?retryWrites=true&w=majority&appName=discordBot')
+})
+
 //attempt a login
 client.login(token);
-
-// Create MongoClient and set MongoClientOptions
-const clientDB = new MongoClient(uri, {
-    serverApi: {
-        version: ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true,
-    }
-})
 
 // client logs into console when the bot is ready
 client.on('ready', (c) =>{
