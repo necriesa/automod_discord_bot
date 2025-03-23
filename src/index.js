@@ -10,7 +10,7 @@ const badWords = JSON.parse(fs.readFileSync('./badwords.json', 'utf8'));
 client.login(token);
 
 // client logs into console when the bot is ready
-client.on('ready', (c) =>{ 
+client.on('ready', (c) =>{
     console.log(`${c.user.tag} is ready!`);
 });
 
