@@ -9,7 +9,7 @@ const badWords = JSON.parse(fs.readFileSync('./src/profanity.json', 'utf8'));
 
 // connect to MongoDB database
 (async () => {
-    await mongoose.connect('mongodb+srv://csnj22xs:<pHJUDPSmC5vXu9Tw>@discordbot.p4ju0.mongodb.net/?retryWrites=true&w=majority&appName=discordBot')
+    await mongoose.connect(process.env.MONGODB_URI)
 })
 
 //attempt a login
