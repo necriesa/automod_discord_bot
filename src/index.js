@@ -1,7 +1,10 @@
 require('dotenv').config();
 
-const client  = require('./client');
+const fs = require('fs');
+const client = require('./client');
 const token = process.env.DISCORD_TOKEN || "";
+
+const badWords = JSON.parse(fs.readFileSync('./badwords.json', 'utf8'));
 
 //attempt a login
 client.login(token);
@@ -13,20 +16,18 @@ client.on('ready', (c) =>{
 
 // client checks each new message that it can see for bad words
 client.on('messageCreate', (message) => {
-    const words = ["nigger", "faggot", "asswipe"];
 
-    const splitMessage = message.content.toLowerCase().split(" ");
+    const words = message.content.toLowerCase().split(/\s+/);
 
-    if(splitMessage.some(item => words.includes(item))){
+    if (words.some(word => badWords.includes(word))) {
 
-        //reply to the message: 
+        //reply to the message:
         message.channel.send(`${message.author} said a bad word D:`)
-        .then(() => console.log(`filtered the badword of ${message.author.tag}`))
-        .catch(console.error);
-
+          .then(() => console.log(`Filtered a bad word from ${message.author.tag}`))
+          .catch(console.error);
+        
         //delete the message
-        message.delete()
-        .catch(console.error);
+        message.delete().catch(console.error);
     }
 });
 
