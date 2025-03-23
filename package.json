@@ -23,6 +23,7 @@
     "automod_discord_bot": "file:",
     "discord.js": "^14.18.0",
     "dotenv": "^16.4.7",
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.9",
+    "openai": "^4.89.0"
   }
 }
