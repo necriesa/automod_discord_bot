@@ -2,22 +2,27 @@ require('dotenv').config();
 
 const fs = require('fs');
 const client = require('./client');
+const mongoose = require('mongoose')
+const token = process.env.DISCORD_TOKEN || "";
+
+// database schemas
+const updateInfraction = require('./utils/userInfractions');
+const Users = require('./database/userSchema');
+
+const badWords = JSON.parse(fs.readFileSync('./src/profanity.json', 'utf8'));
+
 const { Events } = require('discord.js');
 const OpenAI = require('openai');
-
-const token = process.env.DISCORD_TOKEN || "";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENROUTER_API_KEY,
   baseURL: 'https://openrouter.ai/api/v1'
 });
 
-  
-
-// const badWords = JSON.parse(fs.readFileSync('./profanity.json', 'utf8'));
-
-//attempt a login
-client.login(token);
+// attempt to connect to MongoDB database and login
+mongoose.connect(process.env.MONGODB_URI).then(() => {
+    client.login(token)
+}).catch( (err) => {console.log(`Error: ${err.message}`)} )
 
 // client logs into console when the bot is ready
 client.on('ready', (c) =>{
@@ -25,21 +30,24 @@ client.on('ready', (c) =>{
 });
 
 // client checks each new message that it can see for bad words
-// client.on('messageCreate', (message) => {
+client.on('messageCreate', (message) => {
 
-//     const words = message.content.toLowerCase().split(/\s+/);
+    const words = message.content.toLowerCase().split(/\s+/);
 
-//     if (words.some(word => badWords.includes(word))) {
+    if (words.some(word => badWords.includes(word))) {
 
-//         //reply to the message:
-//         message.channel.send(`${message.author} said a bad word D:`)
-//           .then(() => console.log(`Filtered a bad word from ${message.author.tag}`))
-//           .catch(console.error);
+        //reply to the message:
+        message.channel.send(`${message.author} said a bad word D:`)
+          .then(() => console.log(`Filtered a bad word from ${message.author.tag}`))
+          .catch(console.error);
         
-//         //delete the message
-//         message.delete().catch(console.error);
-//     }
-// });
+        //delete the message
+        message.delete().catch(console.error);
+
+        // update infraction info for user
+        updateInfraction(message);
+    }
+});
 
 client.on(Events.InteractionCreate, async (interaction) => {
     if (!interaction.isChatInputCommand()) return;
@@ -60,7 +68,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
     if (reply) {
         await interaction.editReply(reply);
-    } 
+    }
     else {
         await interaction.editReply("⚠️ DeepSeek returned an empty response.");
     }
@@ -74,7 +82,3 @@ client.on(Events.InteractionCreate, async (interaction) => {
       await interaction.editReply(errorMsg);
     }
   });
-  
-  
-
-
