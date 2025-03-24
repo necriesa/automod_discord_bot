@@ -14,14 +14,10 @@ const badWords = JSON.parse(fs.readFileSync('./src/profanity.json', 'utf8'));
 const { Events } = require('discord.js');
 const OpenAI = require('openai');
 
-const token = process.env.DISCORD_TOKEN || "";
-
 const openai = new OpenAI({
   apiKey: process.env.OPENROUTER_API_KEY,
   baseURL: 'https://openrouter.ai/api/v1'
 });
-
-const badWords = JSON.parse(fs.readFileSync('./profanity.json', 'utf8'));
 
 // attempt to connect to MongoDB database and login
 mongoose.connect(process.env.MONGODB_URI).then(() => {
@@ -33,7 +29,7 @@ client.on('ready', (c) =>{
     console.log(`${c.user.tag} is ready!`);
 });
 
-client checks each new message that it can see for bad words
+// client checks each new message that it can see for bad words
 client.on('messageCreate', (message) => {
 
     const words = message.content.toLowerCase().split(/\s+/);
@@ -72,7 +68,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
     if (reply) {
         await interaction.editReply(reply);
-    } 
+    }
     else {
         await interaction.editReply("⚠️ DeepSeek returned an empty response.");
     }
