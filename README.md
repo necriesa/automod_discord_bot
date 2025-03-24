@@ -1,2 +1,2 @@
-# automod_discord_bot
+# discord_bot
 Chat moderation bot for Discord servers
