@@ -17,7 +17,7 @@ module.exports = {
     required: true,
     }
   ],
-  run: async (client, interaction) => {
+  run: async (_, interaction) => {
     const prompt = interaction.options.getString('prompt');
   
     await interaction.deferReply();

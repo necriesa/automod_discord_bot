@@ -6,8 +6,7 @@ const badWords = JSON.parse(
   fs.readFileSync(path.join(__dirname, '../../../profanity.json'), 'utf8')
 );
 
-module.exports = (message) => {
-
+module.exports = (_, message) => {
   const words = message.content.toLowerCase().split(/\s+/);
 
   if (words.some(word => badWords.includes(word))) {
