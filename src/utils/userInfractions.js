@@ -16,19 +16,27 @@ module.exports = async (message) => {
     const user = await Users.findOne(query);
 
     if (user) {
-      // user gets timed out for 5 mins after 3 infractions
-      if (user.infractionCount >= 3) {
-        message.member.timeout(5 * 60 * 1000, `${author.displayName} has been too naughty!`).
-        then(console.log).catch(console.error);
-    }
-
       user.infractionCount += 1;
       user.infractionDate = message.createdAt;
-
+      
       await user.save().catch((e) => {
         console.log(`Error updating user infractions: ${e.message}`)
         return;
       });
+
+      // user gets a ramping punishment based on number of infractions
+      if (user.infractionCount >= 3) {
+        await message.member.timeout(5 * 60 * 1000, `${author.displayName} has been too naughty!`).
+        then(console.log).catch(console.error);
+      }
+      else if (user.infractionCount >= 5) {
+        await message.member.timeout(10 * 60 * 1000, `${author.displayName} has been too naughty!`).
+        then(console.log).catch(console.error);
+      }
+      else if (user.infractionCount >= 10) {
+        await message.member.ban({ deleteMessageSeconds: 60 * 60 * 24 * 7, reason: `${author.displayName} was spamming profanity!` }).
+        then(console.log).catch(console.error);
+      }
     }
     else {
       // user doesn't exist yet

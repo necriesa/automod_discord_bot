@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
 const token = process.env.DISCORD_TOKEN || "";
 
 // database schemas
-const updateInfraction = require('./database/userInfractions');
+const updateInfraction = require('./utils/userInfractions');
 const Users = require('./database/userSchema');
 
 const badWords = JSON.parse(fs.readFileSync('./src/profanity.json', 'utf8'));
