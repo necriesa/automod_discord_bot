@@ -43,7 +43,7 @@ module.exports = async (client, interaction) => {
             content: "Insufficient User Permissions!",
             ephemeral: true,
           });
-          break;
+          return;
         }
       }
     }
@@ -58,12 +58,12 @@ module.exports = async (client, interaction) => {
             content: "Insufficient Bot Permissions!",
             ephemeral: true,
           });
-          break;
+          return;
         }
       }
     }
 
-    await commandObj.callback();
+    await commandObj.run(client, interaction);
   } catch (error) {
     console.log(`Error running this command: ${error}`);
   }

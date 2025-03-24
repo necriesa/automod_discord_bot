@@ -23,16 +23,16 @@ module.exports = async (client, c) => {
           console.log(`Deleted command "${name}".`);
           continue;
         }
-      }
 
-      // check if the server's command version is up to date with locally stored command
-      if (checkCommandsDifference(existingCommand, localCommand)) {
-        await appCommands.edit(existingCommand.id, {
-          description,
-          options
-        });
+        // check if the server's command version is up to date with locally stored command
+        if (checkCommandsDifference(existingCommand, localCommand)) {
+          await appCommands.edit(existingCommand.id, {
+            description,
+            options
+          });
 
-        console.log(`Edited command: "${name}".`);
+          console.log(`Edited command: "${name}".`);
+        }
       }
       else {
         if (localCommand.deleted) {
