@@ -1,4 +1,4 @@
-const Users = require('./database/userSchema');
+const Users = require('../database/userSchema');
 const { Message } = require('discord.js');
 
 /**
