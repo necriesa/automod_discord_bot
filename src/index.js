@@ -6,13 +6,14 @@ const mongoose = require('mongoose')
 const token = process.env.DISCORD_TOKEN || "";
 
 // database schemas
-const updateInfraction = require('./utils/userInfractions');
+const updateInfraction = require('./utils/moderation/userInfractions');
 const Users = require('./database/userSchema');
 
 const badWords = JSON.parse(fs.readFileSync('./src/profanity.json', 'utf8'));
 
 const { Events } = require('discord.js');
 const OpenAI = require('openai');
+const eventHandler = require('./handlers/eventHandler');
 
 const openai = new OpenAI({
   apiKey: process.env.OPENROUTER_API_KEY,
@@ -21,7 +22,8 @@ const openai = new OpenAI({
 
 // attempt to connect to MongoDB database and login
 mongoose.connect(process.env.MONGODB_URI).then(() => {
-    client.login(token)
+  eventHandler(client);
+  client.login(token);
 }).catch( (err) => {console.log(`Error: ${err.message}`)} )
 
 // client logs into console when the bot is ready
